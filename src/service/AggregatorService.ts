@@ -1,5 +1,5 @@
 import * as SocketIO from "socket.io";
-import {ClientService} from "./clientService";
+import {ClientService} from "./ClientService";
 import {RemoteDataService} from "./RemoteDataService";
 import {EalyzeMeasurement, MData, MeterMeasurement, SolarEdgeMeasurement} from "../model";
 
@@ -38,7 +38,7 @@ export class AggregatorService {
         this.clientService.sendEalyzeMeasurements(this.ealyzeMeasurements);
       }
     ).catch(r => {
-      console.log('Unable to get Ealyze data at this time', r);
+      console.log('Unable to get Ealyze data:', r.errno);
     });
     this.remote.getSolarEdgeData().then(
       data => {
@@ -48,7 +48,7 @@ export class AggregatorService {
         this.clientService.sendSolarEdgeMeasurements(this.solarEdgeMeasurements);
       }
     ).catch(r => {
-      console.log('Unable to get SolarEdge data at this time', r);
+      console.log('Unable to get SolarEdge data:', r.errno);
     });
   };
 }

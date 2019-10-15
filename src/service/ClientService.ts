@@ -38,7 +38,6 @@ export class ClientService {
    * @param socket
    */
   private emit = (name: string, data: any, socket?: SocketIO.Socket): boolean => {
-    console.log(name, data);
     return socket ? socket.emit(name, data) : this.io.sockets.emit(name, data);
   };
 }
