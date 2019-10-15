@@ -9,6 +9,6 @@ export class ConnectionHandler {
   }
 
   handleDisconnect = (data: any, resolve: (d?: any) => void): void => {
-    resolve('OK')
+    // resolve('OK')
   };
 }
