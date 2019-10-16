@@ -1,6 +1,6 @@
-import {ConnectionHandler} from "../handler/socket/connectionHandler";
-import {AggregatorService} from "../service/AggregatorService";
-import {config} from "../config/env.config";
+import {ConnectionHandler} from '../handler/socket/connectionHandler';
+import {AggregatorService} from '../service/AggregatorService';
+import {config} from '../config/env.config';
 
 export class SocketController {
   io: SocketIO.Server;
@@ -24,6 +24,6 @@ export class SocketController {
 
   initiate = () => {
     this.io.sockets.on('connection', this.socketConnect);
-    console.log('SocketIO up and running at', config.ioPort);
+    console.log('SocketIO up and running at', config.port);
   };
 }

@@ -3,7 +3,7 @@ import SocketIO from 'socket.io';
 import {Server} from 'http';
 import {ApiController} from './controllers/apiController';
 import {SocketController} from './controllers/socketController';
-import {AggregatorService} from "./service/AggregatorService";
+import {AggregatorService} from './service/AggregatorService';
 
 const expressApp: express.Application = express();
 const httpApp: Server = new Server(expressApp);

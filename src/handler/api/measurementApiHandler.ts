@@ -18,7 +18,7 @@ export class MeasurementApiHandler {
     const measurement = new MeterMeasurement(req.body);
     if (measurement.isValid()) {
       res.status(200).send('OK');
-      console.log('Received new measurement for meter', measurement.id);
+      console.log('Received new measurement for meter', measurement.serial);
       this.aggregator.addMeterMeasurement(measurement);
     } else {
       res.status(400).send('INVALID');

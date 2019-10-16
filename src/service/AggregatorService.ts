@@ -1,7 +1,8 @@
-import * as SocketIO from "socket.io";
-import {ClientService} from "./ClientService";
-import {RemoteDataService} from "./RemoteDataService";
-import {EalyzeMeasurement, MData, MeterMeasurement, SolarEdgeMeasurement} from "../model";
+import * as SocketIO from 'socket.io';
+import {ClientService} from './ClientService';
+import {RemoteDataService} from './RemoteDataService';
+import {EalyzeMeasurement, MData, MeterMeasurement, SolarEdgeMeasurement} from '../model';
+import {config} from '../config/env.config';
 
 
 export class AggregatorService {
@@ -19,7 +20,12 @@ export class AggregatorService {
   }
 
   public addMeterMeasurement = (data: MeterMeasurement) => {
-    this.meterMeasurements[data.id] = data;
+    if (data.serial === config.lommerd.meterId) {
+      this.meterMeasurements.lommerd = data;
+    }
+    if (data.serial === config.dazo.meterId) {
+      this.meterMeasurements.dazo = data;
+    }
     this.clientService.sendMeterMeasurements(this.meterMeasurements);
   };
 
@@ -30,25 +36,23 @@ export class AggregatorService {
   };
 
   public refreshData = () => {
-    this.remote.getEalyzeData().then(
+    // this.remote.getEalyzeData().then(
+    //   data => {
+    //     if (data) {
+    //       this.ealyzeMeasurements.lommerd = data;
+    //     }
+    //     this.clientService.sendEalyzeMeasurements(this.ealyzeMeasurements);
+    //   }
+    // ).catch(r => {
+    //   console.log('Unable to get Ealyze data:', r.errno);
+    // });
+    this.remote.getSolarEdgeData(config.lommerd.solaredgeId).then(
       data => {
-        data.forEach((measurement: EalyzeMeasurement) => {
-          this.ealyzeMeasurements[measurement.id] = measurement;
-        });
-        this.clientService.sendEalyzeMeasurements(this.ealyzeMeasurements);
-      }
-    ).catch(r => {
-      console.log('Unable to get Ealyze data:', r.errno);
-    });
-    this.remote.getSolarEdgeData().then(
-      data => {
-        data.forEach((measurement: SolarEdgeMeasurement) => {
-          this.solarEdgeMeasurements[measurement.id] = measurement;
-        });
+        this.solarEdgeMeasurements.lommerd = data;
         this.clientService.sendSolarEdgeMeasurements(this.solarEdgeMeasurements);
       }
     ).catch(r => {
-      console.log('Unable to get SolarEdge data:', r.errno);
+      console.log('Unable to get SolarEdge data:', r.config.url);
     });
   };
 }

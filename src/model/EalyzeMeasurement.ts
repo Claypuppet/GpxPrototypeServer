@@ -1,7 +1,7 @@
-export class EalyzeMeasurement {
-  id: number;
-  [key: string]: any;
+export interface EalyzeMeasurement {
 
-  constructor(data: any) {
-  }
+  measurements: {
+    moment: Date;
+    value: number;
+  }[];
 }

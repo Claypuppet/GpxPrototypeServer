@@ -1,6 +1,3 @@
-export class SolarEdgeMeasurement {
-  [key: string]: any;
-
-  constructor(data: any) {
-  }
+export interface SolarEdgeMeasurement {
+  currentPower: number;
 }

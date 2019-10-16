@@ -1,31 +1,29 @@
 import axios from 'axios';
 
 import {config} from '../config/env.config';
-import {EalyzeMeasurement, SolarEdgeMeasurement} from "../model";
+import {EalyzeMeasurement, SolarEdgeMeasurement} from '../model';
 
 export class RemoteDataService {
 
-  getEalyzeData = (): Promise<EalyzeMeasurement[]> => {
+  getEalyzeData = (): Promise<EalyzeMeasurement> => {
     return new Promise((resolve, reject) => {
-      console.log(config, config.solaredge, config.solaredge.endpoint);
       axios.get(config.ealyze.endpoint, {
-        headers: {
-          // 'Auth': config.ealyze.key
-        }
       }).then(r => {
-        resolve()
+        resolve();
       }).catch(e => reject(e));
     });
   };
 
-  getSolarEdgeData = (): Promise<SolarEdgeMeasurement[]> => {
+  getSolarEdgeData = (id: string): Promise<SolarEdgeMeasurement> => {
     return new Promise((resolve, reject) => {
-      axios.get(config.solaredge.endpoint, {
-        headers: {
-          // 'Auth': config.solaredge.key
+      const url = config.solaredge.endpoint.replace('{0}', id);
+      axios.get(url, {
+        params: {
+          api_key: config.solaredge.key,
+          format: 'json',
         }
       }).then(r => {
-
+        resolve({currentPower: r.data.overview.currentPower.power});
       }).catch(e => reject(e));
     });
   };

@@ -1,15 +1,15 @@
 import express from 'express';
-import { Server } from 'http';
-import { config } from '../config/env.config';
-import { MeasurementApiHandler } from '../handler/api/measurementApiHandler';
-import {AggregatorService} from "../service/AggregatorService";
+import {Server} from 'http';
+import {config} from '../config/env.config';
+import {MeasurementApiHandler} from '../handler/api/measurementApiHandler';
+import {AggregatorService} from '../service/AggregatorService';
 
 export class ApiController {
   expressApp: express.Application;
 
   aggregator: AggregatorService;
 
-  constructor(expressApp: express.Application,aggregator: AggregatorService) {
+  constructor(expressApp: express.Application, aggregator: AggregatorService) {
     this.aggregator = aggregator;
     this.expressApp = expressApp;
     const measurementHandler = new MeasurementApiHandler(aggregator);
@@ -30,9 +30,9 @@ export class ApiController {
   }
 
   initiate = (httpApp: Server) => {
-    httpApp.listen(config.apiPort, () => {
-      console.log('API up and running at', config.apiPort);
+    httpApp.listen(config.port, () => {
+      console.log('API up and running at', config.port);
     });
-  }
+  };
 
 }
