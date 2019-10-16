@@ -17,5 +17,5 @@ export const config = {
     meterId: 'E0054007157332119',
     importEan: '871687120050601664',
   },
-  port: 3000,
+  port: process.env.NODEJS_PORT || 3000,
 };
