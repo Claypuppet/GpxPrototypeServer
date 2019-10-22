@@ -20,11 +20,14 @@ export class AggregatorService {
   }
 
   public addMeterMeasurement = (data: MeterMeasurement) => {
-    if (data.serial === config.lommerd.meterId) {
+    if (data.id === config.lommerd.meterId) {
       this.meterMeasurements.lommerd = data;
     }
-    if (data.serial === config.dazo.meterId) {
+    else if (data.id === config.dazo.meterId) {
       this.meterMeasurements.dazo = data;
+    }
+    else {
+      return;
     }
     this.clientService.sendMeterMeasurements(this.meterMeasurements);
   };

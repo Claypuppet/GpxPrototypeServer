@@ -8,13 +8,13 @@ export const config = {
     key: process.env.SOLAREDGE_KEY
   },
   lommerd: {
-    meterId: '4530303331303033303031363939353135',
+    meterId: 1,
     solaredgeId: '263997',
     importEan: '871687120050601718',
     exportEan: '871687180000556871',
   },
   dazo: {
-    meterId: 'E0054007157332119',
+    meterId: 2,
     importEan: '871687120050601664',
   },
   port: process.env.NODEJS_PORT || 3000,

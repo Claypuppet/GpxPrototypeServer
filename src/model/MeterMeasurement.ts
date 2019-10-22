@@ -4,6 +4,7 @@ interface MeterMeasurementData {
 }
 
 export class MeterMeasurement {
+  id: number;
   moment: Date;
   serial: string;
   consumption1: number;
@@ -14,6 +15,7 @@ export class MeterMeasurement {
   currentProduction: number;
 
   constructor(data: MeterMeasurementData) {
+    this.id = +data.id;
     this.parseFromRaw(data.raw);
   }
 
