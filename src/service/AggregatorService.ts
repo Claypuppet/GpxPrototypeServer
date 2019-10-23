@@ -21,15 +21,15 @@ export class AggregatorService {
 
   public addMeterMeasurement = (data: MeterMeasurement) => {
     if (data.id === config.lommerd.meterId) {
+      data.applyBaseValues(config.lommerd.baseImportKWH, config.lommerd.baseExportKWH);
       this.meterMeasurements.lommerd = data;
+      this.clientService.sendMeterMeasurements(this.meterMeasurements);
     }
     else if (data.id === config.dazo.meterId) {
+      data.applyBaseValues(config.dazo.baseImportKWH);
       this.meterMeasurements.dazo = data;
+      this.clientService.sendMeterMeasurements(this.meterMeasurements);
     }
-    else {
-      return;
-    }
-    this.clientService.sendMeterMeasurements(this.meterMeasurements);
   };
 
   public sendDataToUser = (socket: SocketIO.Socket) => {

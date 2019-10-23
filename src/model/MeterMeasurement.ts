@@ -4,23 +4,28 @@ interface MeterMeasurementData {
 }
 
 export class MeterMeasurement {
+  private _consumption1: number;
+  private _consumption2: number;
+  private _production1: number;
+  private _production2: number;
+
   id: number;
   moment: Date;
   serial: string;
-  consumption1: number;
-  consumption2: number;
-  production1: number;
-  production2: number;
+  consumption: number;
+  production: number;
   currentConsumption: number;
   currentProduction: number;
 
   constructor(data: MeterMeasurementData) {
-    this.id = +data.id;
     this.parseFromRaw(data.raw);
+    this.id = +data.id;
+    this.consumption = this._consumption1 + this._consumption2;
+    this.production = this._production1 + this._production2;
   }
 
   isValid(): boolean {
-    return this.consumption1 !== undefined;
+    return this.id > 0 && this.consumption > 0;
   }
 
   private parseFromRaw(raw: string): void {
@@ -37,15 +42,15 @@ export class MeterMeasurement {
           parseInt(moment.groups.sec, 10),
         );
       } else if (line.startsWith('0-0:96.1.1')) {
-        this.serial = line.match(/\((.*)\)/)[1]
+        this.serial = line.match(/\((.*)\)/)[1];
       } else if (line.startsWith('1-0:1.8.1')) {
-        this.consumption1 = parseFloat(line.match(/\((\d+\.\d+)\*kWh\)/)[1]);
+        this._consumption1 = parseFloat(line.match(/\((\d+\.\d+)\*kWh\)/)[1]);
       } else if (line.startsWith('1-0:1.8.2')) {
-        this.consumption2 = parseFloat(line.match(/\((\d+\.\d+)\*kWh\)/)[1]);
+        this._consumption2 = parseFloat(line.match(/\((\d+\.\d+)\*kWh\)/)[1]);
       } else if (line.startsWith('1-0:2.8.1')) {
-        this.production1 = parseFloat(line.match(/\((\d+\.\d+)\*kWh\)/)[1]);
+        this._production1 = parseFloat(line.match(/\((\d+\.\d+)\*kWh\)/)[1]);
       } else if (line.startsWith('1-0:2.8.2')) {
-        this.production2 = parseFloat(line.match(/\((\d+\.\d+)\*kWh\)/)[1]);
+        this._production2 = parseFloat(line.match(/\((\d+\.\d+)\*kWh\)/)[1]);
       } else if (line.startsWith('1-0:1.7.0')) {
         this.currentConsumption = parseFloat(line.match(/\((\d+\.\d+)\*kW\)/)[1]);
       } else if (line.startsWith('1-0:2.7.0')) {
@@ -54,5 +59,10 @@ export class MeterMeasurement {
         return;
       }
     });
+  }
+
+  applyBaseValues(importKWH: number, exportKWH: number = 0){
+    this.consumption -= importKWH;
+    this.production -= exportKWH;
   }
 }
