@@ -12,13 +12,13 @@ export const config = {
     solaredgeId: '263997',
     importEan: '871687120050601718',
     exportEan: '871687180000556871',
-    baseImportKWH: 3000,
-    baseExportKWH: 3000,
+    baseImportKWH: 0,
+    baseExportKWH: 0,
   },
   dazo: {
     meterId: 2,
     importEan: '871687120050601664',
-    baseImportKWH: 3000,
+    baseImportKWH: 0,
   },
   port: process.env.NODEJS_PORT || 3000,
 };
