@@ -61,7 +61,7 @@ export class MeterMeasurement {
     });
   }
 
-  applyBaseValues(importKWH: number, exportKWH: number = 0){
+  applyBaseValues(importKWH: number, exportKWH: number = 0) {
     this.consumption -= importKWH;
     this.production -= exportKWH;
   }
